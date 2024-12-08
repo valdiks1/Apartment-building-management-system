@@ -55,6 +55,7 @@
 			    <a href="mainInfo.php" class="nav-link">Pozdrav</a>
 			    <a href="applications.php" class="nav-link">Žiadosti</a>
 			    <a href="rule.php" class="nav-link active">Riaditeľstvo</a>
+			    <a href="tariffs.php" class="nav-link">Tarify</a>
 			    <a class="nav-link disabled" href="questions.php">Dotazník</a>
 			    <form method="post" action="">
 					<input class="btn btn-outline-light" type="submit" name="logoutAdmin" value="Odhlásiť sa">
