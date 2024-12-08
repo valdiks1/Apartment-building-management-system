@@ -19,7 +19,25 @@
 		$name=$_POST['addName'];
 		$ms=$_POST['addMs'];
 		$tariff=$_POST['addTariff'];
-		$addNews = mysqli_query($link, "INSERT INTO tariffs SET name='".$name."', ms='".$ms."', tariff='".$tariff."'");
+		$addTariff = mysqli_query($link, "INSERT INTO tariffs SET name='".$name."', ms='".$ms."', tariff='".$tariff."'");
+
+		header("Location: tariffs.php");
+	}
+
+	if(isset($_POST['deleteSubmit'])){
+		$id=$_POST['deleteId'];
+		$deleteNews = mysqli_query($link, "DELETE FROM tariffs WHERE id='".$id."'");
+
+		header("Location: tariffs.php");
+	}
+
+	if(isset($_POST['editSubmit'])){
+		$editId = $_POST['editId'];
+		$editName = $_POST['editName'];
+		$editMs = $_POST['editMs'];
+		$editTariff = $_POST['editTariff'];
+
+		$editTariffQuery = mysqli_query($link, "UPDATE tariffs SET name='".$editName."', ms='".$editMs."', tariff='".$editTariff."' WHERE id=".$editId);
 
 		header("Location: tariffs.php");
 	}
@@ -103,14 +121,16 @@
   				</div>
 			</div>
 
+			
+
 
 			<table class="table table-striped">
   				<thead>
     				<tr>
-      					<th scope="col">#</th>
       					<th scope="col">Názov</th>
       					<th scope="col">Sústava merania</th>
       					<th scope="col">Tarifa</th>
+						<th scope="col">Akcie</th>
     				</tr>
   				</thead>
 				<tbody>
@@ -118,10 +138,25 @@
 				    	foreach($rows as $row){
 				    		echo "
 				    			<tr>
-				      				<th scope='row'>" . $row['id'] . "</th>
-				      				<td>" . $row['name'] . "</td>
-				      				<td>" . $row['ms'] . "</td>
-				      				<td>" . $row['tariff'] . "&#8364;</td>
+									<form action='' method='post'>
+										<input type='hidden' name='editId' value='" . $row['id'] . "'>
+				      					<td><input class='form-control' type='text' name='editName' value='" . $row['name'] . "'></td>
+				      					<td><input class='form-control' type='text' name='editMs' value='" . $row['ms'] . "'></td>
+				      					<td>
+											<div class='row'>
+												<div class='col'><input class='form-control' type='number' step='any' name='editTariff' value='" . $row['tariff'] . "'></div>
+												<div class='col'>&#8364;</div>
+											</div>
+										</td>
+										<td>
+										<input value='Zmeniť' name='editSubmit' type='submit' class='btn btn-warning'>
+										<form action='' method='post'>
+											<input value='" . $row['id'] . "' type='hidden' name='deleteId'>
+											<input type='submit' name='deleteSubmit' value='Odstrániť' class='btn btn-danger'>
+										</form>
+									</form>
+										
+									</td>
 				    			</tr>
 				    		";
 				    	}
