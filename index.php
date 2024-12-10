@@ -46,6 +46,7 @@
       }else if($_POST['password'] == $data['password']){
         setcookie("user", $data['name'], time()+60*60*24*30, "/");
         setcookie("email", $_POST['email'], time()+60*60*24*30, "/");
+        setcookie("id", $data['id'], time()+60*60*24*30, "/");
 
         header("Location: profile.php");
       } else {

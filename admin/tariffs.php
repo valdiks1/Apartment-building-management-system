@@ -19,7 +19,11 @@
 		$name=$_POST['addName'];
 		$ms=$_POST['addMs'];
 		$tariff=$_POST['addTariff'];
-		$addTariff = mysqli_query($link, "INSERT INTO tariffs SET name='".$name."', ms='".$ms."', tariff='".$tariff."'");
+		if(isset($_POST['hasMeter'])){
+			$addTariff = mysqli_query($link, "INSERT INTO tariffs SET name='".$name."', ms='".$ms."', tariff='".$tariff."', hasMeter=true");	
+		}else{
+			$addTariff = mysqli_query($link, "INSERT INTO tariffs SET name='".$name."', ms='".$ms."', tariff='".$tariff."', hasMeter=false");
+		}
 
 		header("Location: tariffs.php");
 	}
@@ -113,6 +117,10 @@
 								<div class="form-group">
 									<label for="addTariff">Tarifa</label>
 									<input name="addTariff" id="addTariff" type="number" class="form-control" step="any">
+								</div>
+								<div class="form-group">
+									<input id="hasMeter" name="hasMeter" type="checkbox">
+									<label for="hasMeter">Počíta sa s meračom</label>
 								</div>
 								<input value="Pridať" type="submit" name="addSubmit" class="btn btn-primary">
 							</form>
