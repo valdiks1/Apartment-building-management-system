@@ -17,13 +17,10 @@
 	$tariffs_rows = mysqli_fetch_all(mysqli_query($link, "SELECT * FROM tariffs"), MYSQLI_ASSOC);
     $tariffs = [];
     foreach($tariffs_rows as $tariff){
-        //array_push($tariffs, ["id" => $tariff["id"] ,"name" => $tariff["name"], "hasMeter" => $tariff['hasMeter']]);
         $tariffs[$tariff['id']] = ["id" => $tariff["id"] ,"name" => $tariff["name"], "hasMeter" => $tariff['hasMeter'], "tariff" => $tariff['tariff']];
     }
-    //var_dump($tariffs);
 
     if(isset($_POST['submit'])){
-        //var_dump($_POST);
         $selectedTariffs = array();
         foreach($tariffs as $tariff){
             if(array_key_exists($tariff['id'],$_POST)){
@@ -44,8 +41,6 @@
             day=".$currentDay.", month=".$currentMonth.", year=".$currentYear."");
         }
     }
-
-    //var_dump($selectedTariffs);
 
 ?>
 
@@ -148,11 +143,3 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 </body>
 </html>
-
-<!--
-Услуга или енергия
-со счетчиком или без
-
-если нет предыдущего месяца тогда введите кол-во за сколько хотите оплатить
-каждая услуга отдельно будет как то светится в зависимости оплачена она или нет
-?>
