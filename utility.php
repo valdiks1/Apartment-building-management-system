@@ -8,19 +8,45 @@
         header("Location: index.php");
     }
 
-    $link = mysqli_connect($host, $user, $password, $datebase);
-
-	$tariffs = mysqli_fetch_all(mysqli_query($link, "SELECT * FROM tariffs"), MYSQLI_ASSOC);
-    /*$tariffs = array();
-    foreach($tariffs_rows as $tariff){
-        array_push($tariffs, ["id" => $tariff["id"] ,"name" => $tariff["name"], "hasMeter" => $tariff['hasMeter']]);
-    }
-    var_dump($tariffs);*/
-
-
     $currentDay = date('d');
     $currentMonth = date('m');
     $currentYear = date('y');
+
+    $link = mysqli_connect($host, $user, $password, $datebase);
+
+	$tariffs_rows = mysqli_fetch_all(mysqli_query($link, "SELECT * FROM tariffs"), MYSQLI_ASSOC);
+    $tariffs = [];
+    foreach($tariffs_rows as $tariff){
+        //array_push($tariffs, ["id" => $tariff["id"] ,"name" => $tariff["name"], "hasMeter" => $tariff['hasMeter']]);
+        $tariffs[$tariff['id']] = ["id" => $tariff["id"] ,"name" => $tariff["name"], "hasMeter" => $tariff['hasMeter'], "tariff" => $tariff['tariff']];
+    }
+    //var_dump($tariffs);
+
+    if(isset($_POST['submit'])){
+        //var_dump($_POST);
+        $selectedTariffs = array();
+        foreach($tariffs as $tariff){
+            if(array_key_exists($tariff['id'],$_POST)){
+                array_push($selectedTariffs, $tariff['id']);
+            }
+        }
+        $result = array();
+        foreach($selectedTariffs as $selectedTariff){
+            if($tariffs[$selectedTariff]['hasMeter']){
+                array_push($result, ["id_t" => $selectedTariff, "value" => $_POST[$selectedTariff . "value"]]);
+            }else{
+                array_push($result, ["id_t" => $selectedTariff, "value" => $tariffs[$selectedTariff]['tariff']]);
+            }
+        }
+        foreach($result as $query){
+            mysqli_query($link, "INSERT INTO meter_readings SET 
+            id_u='".$_COOKIE['id']."', id_t='".$query['id_t']."', value='".$query['value']."', 
+            day=".$currentDay.", month=".$currentMonth.", year=".$currentYear."");
+        }
+    }
+
+    //var_dump($selectedTariffs);
+
 ?>
 
 <!DOCTYPE html>
@@ -105,7 +131,7 @@
                         echo "
                             <div class='card-body'>
                                 Ak chcete zaplatiť za službu, kliknite na začiarknutie.
-                                Tariffa: ".$tariff['tariff']."
+                                Tariffa: ".$tariff['tariff']."&#8364;
                             </div> ";
                     }
                 echo "</div>";
@@ -114,17 +140,6 @@
             ?>
             
         </form>
-        <div class="card">
-            <div class="card-header">
-                test
-            </div>
-            <div class='card-body'>
-                <div class='form-group'>
-                    <label>Hodnoty meračov za minulý mesiac chýbajú, prosím, zadajte hodnoty, za ktoré chcete zaplatiť.</label>
-                    <input class='form-control' type='text'>
-                </div>
-            </div>
-        </div>
 
     </div>
   </main>
