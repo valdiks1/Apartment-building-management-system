@@ -28,6 +28,7 @@
     if(isset($_POST['logout'])){
       setcookie("user", "", time() - 3600*24*30*12, "/");
       setcookie("email", "", time() - 3600*24*30*12, "/");
+      setcookie("id", "", time() - 3600*24*30*12, "/");
 
       header("Location: index.php");
     }

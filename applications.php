@@ -18,18 +18,18 @@
 
   if(isset($_POST['submit'])){
 
-      $query = mysqli_query($link,"SELECT id, name, password FROM users WHERE email='".mysqli_real_escape_string($link,$_POST['email'])."' LIMIT 1");
+      $query = mysqli_query($link,"SELECT id, name, password, isAdmin FROM users WHERE email='".mysqli_real_escape_string($link,$_POST['email'])."' LIMIT 1");
       $data = mysqli_fetch_assoc($query);
-      //print_r($data);
-      if($_POST['email'] == 'admin@gmail.com' && $_POST['password'] == 'admin'){
+      if(md5($_POST['password']) == $data['password'] && $data['isAdmin']){
         
         setcookie("user", "admin", time()+60*60*24*30, "/");
 
 
         header("Location: admin/adminPage.php");
-      }else if($_POST['password'] == $data['password']){
+      }else if(md5($_POST['password']) == $data['password']){
         setcookie("user", $data['name'], time()+60*60*24*30, "/");
         setcookie("email", $_POST['email'], time()+60*60*24*30, "/");
+        setcookie("id", $data['id'], time()+60*60*24*30, "/");
 
         header("Location: profile.php");
       } else {
@@ -102,7 +102,7 @@
                 <input name="password" type="password" class="form-control" id="exampleInputPassword1" required>
                 <p style="color: red;"><?php echo $err; ?></p>
               </div>
-              <input name="submit" value="Увійти" type="submit" class="btn btn-primary" id="submitAuth" required>
+              <input name="submit" value="Prihlásiť sa" type="submit" class="btn btn-primary" id="submitAuth" required>
               <a href="register.php" class="btn btn-primary">Vytvoriť účet</a>
             </form>
           </div>

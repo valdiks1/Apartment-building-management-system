@@ -10,31 +10,31 @@
 
     if (isset($_POST['register'])) {
     	if(strlen($_POST['registerName']) < 3 or strlen($_POST['registerName']) > 50) {
-        	$err[] = "Ім'я має бути не менше 3-х символів і не більше 50";
+        	$err[] = "Meno musí mať najmenej 3 znaky a najviac 50.";
     	}
     	$query = mysqli_query($link, "SELECT id FROM users WHERE email='".mysqli_real_escape_string($link, $_POST['registerEmail'])."'");
     	if(mysqli_num_rows($query) > 0){
-        	$err[] = "Користувач із такою поштою вже існує у базі даних";
+        	$err[] = "Používateľ s takýmto e-mailom už existuje v databáze.";
     	}
     	if(strlen($_POST['registerPassword']) < 8){
-    		$err[] = "Пароль має містити більше 8 символів";
+    		$err[] = "Heslo musí obsahovať viac ako 8 znakov.";
     	}
 
     	if(count($err) == 0) {
     		//echo "done!";
 
     		$email = $_POST['registerEmail'];
-    		$password = $_POST['registerPassword'];
+    		$password = md5($_POST['registerPassword']);
     		$name = $_POST['registerName'];
 
     		mysqli_query($link,"INSERT INTO users SET name='".$name."', email='".$email."', password='".$password."'");
-
+			
         	header("Location: index.php"); exit();
     	}else {
-        	//print "<b>При регистрации произошли следующие ошибки:</b><br>";
-        	//foreach($err AS $error) {
-            	//print $error."<br>";
-        	//}
+        	/*print "<b>Pri registrácii došlo k nasledujúcim chybám:</b><br>";
+        	foreach($err AS $error) {
+            	print $error."<br>";
+        	}*/
     	}
     	
     }
@@ -58,20 +58,20 @@
 
 	<div class="card" style="width: 25rem; margin: 40px auto;">
   		<div class="card-body">
-    		<h5 class="card-title">Реєстрація</h5>
+    		<h5 class="card-title">Registrácia</h5>
     		
     		<form method="post" action="">
   				<div class="form-group">
     				<label for="exampleInputEmail1">Email</label>
-    				<input name="registerEmail" placeholder="Введіть свою адресу електронної пошти" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+    				<input name="registerEmail" placeholder="Zadajte svoju e-mailovú adresu" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
   				</div>
   				<div class="form-group">
-				   <label for="exampleInputName">Ім'я та Прізвище</label>
-				   <input name="registerName" placeholder="Введіть своє Ім'я та Прізвище" type="text" class="form-control" id="exampleInputName" required>
+				   <label for="exampleInputName">Meno a priezvisko</label>
+				   <input name="registerName" placeholder="Zadajte svoje meno a priezvisko" type="text" class="form-control" id="exampleInputName" required>
 				</div>
 				<div class="form-group">
 				   <label for="exampleInputPassword1">Пароль</label>
-				   <input name="registerPassword" placeholder="Введіть пароль" type="password" class="form-control" id="exampleInputPassword1" required>
+				   <input name="registerPassword" placeholder="Zadajte heslo" type="password" class="form-control" id="exampleInputPassword1" required>
 
 				   <p style="color: red">
 				   	<?php
@@ -81,10 +81,10 @@
 				   	?>
 				   </p>
 				</div>
-  				<input name="register" type="submit" value="Створити акаунт" class="btn btn-primary">
+  				<input name="register" type="submit" value="Vytvoriť účet" class="btn btn-primary">
 			</form>
 
-    		<a href="index.php" class="card-link">Повернутися на головну</a>
+    		<a href="index.php" class="card-link">Vrátiť sa na hlavnú stránku</a>
   		</div>
 	</div>
 	
