@@ -13,6 +13,11 @@
     $currentYear = date('y');
 
     $link = mysqli_connect($host, $user, $password, $datebase);
+    $paidTariffs_rows = mysqli_fetch_all(mysqli_query($link, "SELECT * FROM meter_readings WHERE month=".$currentMonth." AND year=".$currentYear." AND id_u=".$_COOKIE['id'].""), MYSQLI_ASSOC);
+    $paidTariffs = [];
+    foreach($paidTariffs_rows as $paidTariff){
+        $paidTariffs[$paidTariff['id_t']] = $paidTariff;
+    }
 
 	$tariffs_rows = mysqli_fetch_all(mysqli_query($link, "SELECT * FROM tariffs"), MYSQLI_ASSOC);
     $tariffs = [];
@@ -96,12 +101,22 @@
                     $localQuery = mysqli_query($link, "SELECT * FROM `meter_readings` WHERE month=".$previosMonth." AND 
                         year=".$previosYear." AND id_u=".$_COOKIE['id']." AND id_t=".$tariff['id']."");
                     $localTarifData = mysqli_fetch_all($localQuery, MYSQLI_ASSOC);
-        
-                    echo "
+
+                    if(isset($paidTariffs[$tariff['id']])){
+                        echo "
                         <div class='card' style='margin-bottom: 15px'>
                     <div class='card-header'>
-                        <input name='".$tariff['id']."' type='checkbox'> ".$tariff['name']."
+                        <input name='".$tariff['id']."' type='checkbox'> <span class='badge badge-success'>".$tariff['name']."</span>
                     </div>";
+                    }else{
+                        echo "
+                        <div class='card' style='margin-bottom: 15px'>
+                    <div class='card-header'>
+                        <input name='".$tariff['id']."' type='checkbox'> <span class='badge badge-danger'>".$tariff['name']."</span>
+                    </div>";
+                    }
+        
+                    
                     if(count($localTarifData) == 0 && $tariff['hasMeter']){
                         echo "
                             <div class='card-body'>
