@@ -5,7 +5,6 @@
 	$err=[];
 
     
-    // Create connection
     $link = mysqli_connect($host, $user, $password, $datebase);
 
     if (isset($_POST['register'])) {
@@ -21,7 +20,6 @@
     	}
 
     	if(count($err) == 0) {
-    		//echo "done!";
 
     		$email = $_POST['registerEmail'];
     		$password = md5($_POST['registerPassword']);
@@ -30,19 +28,10 @@
     		mysqli_query($link,"INSERT INTO users SET name='".$name."', email='".$email."', password='".$password."'");
 			
         	header("Location: index.php"); exit();
-    	}else {
-        	/*print "<b>Pri registrácii došlo k nasledujúcim chybám:</b><br>";
-        	foreach($err AS $error) {
-            	print $error."<br>";
-        	}*/
     	}
     	
     }
 
-
-// echo '<pre>';
-// var_dump($_POST);
-// echo '</pre>';
 
 ?>
 <!DOCTYPE html>

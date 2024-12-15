@@ -36,13 +36,6 @@
     		header("Location: contacts.php");
     	}
 
-    	// echo "<pre>";
-    	// var_dump($_POST);
-    	// echo "</pre>";
-
-    	//$addContactQuery = mysqli_query($link, "INSERT INTO contacts SET name='".$name."', contact='".$contact."'");
-
-    	//header("Location: contacts.php");
     }
 
     if(isset($_POST['deleteContact'])){
@@ -53,9 +46,6 @@
     }
 
     if(isset($_POST['submitEditContact'])){
-    	// echo "<pre>";
-    	// var_dump($_POST);
-    	// echo "</pre>";
 
     	$editNameContact = $_POST['editContactsName'];
     	$editContactsPhone = $_POST['editContactsPhone'];
@@ -78,11 +68,6 @@
     		header("Location: contacts.php");
     	}
 
-
-
-    	//$editContactQuery = mysqli_query($link, "UPDATE contacts SET name='".$editNameContact."', contact='".$editContactsContact."' WHERE id=".$editContactId);
-
-    	//header("Location: contacts.php");
     }
 
 ?>

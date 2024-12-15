@@ -1,6 +1,6 @@
 <?php
-	ini_set('display_errors', 1);
-    error_reporting(E_ALL);
+	/*ini_set('display_errors', 1);
+    error_reporting(E_ALL);*/
 
 	require "../connection.php";
 
@@ -59,12 +59,6 @@
 <body>
 
 <?php if($_COOKIE['user'] == 'admin') : ?>
-
-		<!-- <h1>Admin</h1>
-		<form method="post" action="">
-			<input type="submit" name="logoutAdmin" value="logout">
-		</form> -->
-
 
 
 		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">

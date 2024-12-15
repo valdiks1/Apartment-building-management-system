@@ -1,29 +1,4 @@
 <?php
-    /*ini_set('display_errors', 1);
-    error_reporting(E_ALL);
-
-    $host = "localhost";
-    $user = "admin";
-    $password = "admin";
-    $datebase = "myHome";
-    
-    // Create connection
-    $link = mysqli_connect($host, $user, $password, $datebase);
-    
-
-    if(isset($_POST['submit'])){
-      $query = mysqli_query($link,"SELECT id, name, password FROM users WHERE email='".mysqli_real_escape_string($link,$_POST['email'])."' LIMIT 1");
-      $data = mysqli_fetch_assoc($query);
-      //print_r($data);
-      if($_POST['password'] == $data['password']){
-        setcookie("user", $data['name'], time()+60*60*24*30, "/");
-      }
-
-    }*/
-    
-
-    //echo $_COOKIE['user'];
-    
 
     if(isset($_POST['logout'])){
       setcookie("user", "", time() - 3600*24*30*12, "/");

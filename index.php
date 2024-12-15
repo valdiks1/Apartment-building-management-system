@@ -5,16 +5,9 @@
     require "connection.php";
 
     $err="";
-
-    // $host = "localhost";
-    // $user = "admin";
-    // $password = "admin";
-    // $datebase = "myHome";
     
-    // Create connection
     $link = mysqli_connect($host, $user, $password, $datebase);
 
-    /* output news*/
     $result = mysqli_query($link, "SELECT * FROM `news` ORDER BY `news`.`id` DESC");
     $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
@@ -73,7 +66,6 @@
     
     <header>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <!--<a class="navbar-brand" href="#">Панель навигации</a>-->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Переключатель навигации">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -140,7 +132,6 @@
                 <h5 class="card-header">Kontakty</h5>
                 
                 <div class="card-body">
-                  <!-- <p class="card-text">Главная управляющая +380501111111</p> -->
                   <?php
                     if(empty($contacts)){
                       echo "<h3>Контактів немає</h3>";
@@ -175,12 +166,6 @@
                     }
                   ?>
 
-
-                  <!-- <p class="card-text">Голова правління: Горбунова Олександра Леонідівна</p>
-                  <p class="card-text">Заступник Голови правління: Мартиненко Володомир Миколайович</p>
-                  <p class="card-text">Член правління: Бабяк Ольга Миколаївна</p>
-                  <p class="card-text">Член правління: Грищенко Олександр Григорович</p>
-                  <p class="card-text">Член правління: Тонкодуб Любов Василівна</p> -->
                 </div>
                 <div class="card-footer">Rozhodnutie Valného zhromaždenia bytového družstva 01.12.2019</div>
               </div>
@@ -190,27 +175,7 @@
           <div class="row" style="margin-top: 15px;">
             <div class="col-lg-12">
               
-              <!-- <div class="card">
-                <div class="card-header">Опитування</div>
-                <div class="card-body">
-                  <h5 class="card-title"><?php echo $question[0]["question"]; ?></h5>
-                  <p class="card-text">
-                    <?php echo $question[0]['fData']; ?> <?php echo $question[0]['fVariantAnswear']; ?>:
-                    <div class="progress">
-                      <div class="progress-bar" style="width: <?php echo $question[0]['fData']; ?>" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </p>
-                  <p class="card-text">
-                     <?php echo $question[0]['sData']; ?> <?php echo $question[0]['sVariantAnswear']; ?>:
-                    <div class="progress">
-                      <div class="progress-bar" style="width: <?php echo $question[0]['sData']; ?>" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </p>
-                </div>
-                <div class="card-footer">
-                  <a href="question.php" class="card-link">Пройти тест</a>
-                </div>
-              </div> -->
+            
 
             </div>
           </div>
@@ -258,15 +223,6 @@
                 <h5 class="card-header">Novinky</h5>
                 <div class="card-body">
 
-                  <!-- <div class="card" style="margin-bottom: 15px">
-                    <div class="card-body">
-                      <h5 class="card-title">Боржники по будинку "Зразковий" за Грудень 2015 року</h5>
-                      <p class="card-text">Станом на 1 січня 2016, загальна заборгованість мешканців становить 10...</p>
-                    </div>
-                    <div class="card-footer">
-                      <p class="card-text">Опубліковано: 29 січня 2016</p>
-                    </div>
-                  </div> -->
 
                   <?php
                   if(empty($rows)){
