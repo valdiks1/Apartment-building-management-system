@@ -1,5 +1,6 @@
 <?php
     require "./connection.php";
+    session_start();
 
     if(isset($_POST['logout'])){
         setcookie("user", "", time() - 3600*24*30*12, "/");
@@ -26,7 +27,7 @@
         $tariffs[$tariff['id']] = ["id" => $tariff["id"] ,"name" => $tariff["name"], "hasMeter" => $tariff['hasMeter'], "tariff" => $tariff['tariff']];
     }
 
-    if(isset($_POST['submit'])){
+    if(isset($_POST['submit']) || isset($_POST['submitPM'])){
         $selectedTariffs = array();
         foreach($tariffs as $tariff){
             if(array_key_exists($tariff['id'],$_POST)){
@@ -41,11 +42,20 @@
                 array_push($result, ["id_t" => $selectedTariff, "value" => $tariffs[$selectedTariff]['tariff']]);
             }
         }
+        $_SESSION["payment_data"] = $result;
         foreach($result as $query){
             mysqli_query($link, "INSERT INTO meter_readings SET 
             id_u='".$_COOKIE['id']."', id_t='".$query['id_t']."', value='".$query['value']."', 
             day=".$currentDay.", month=".$currentMonth.", year=".$currentYear."");
         }
+        if(isset($_POST['submit'])){
+            header("Location: utility.php");
+        }else if(isset($_POST['submitPM'])){
+
+            header("Location: payment_instruction.php");
+        }
+
+        
     }
 
 ?>
@@ -83,9 +93,34 @@
   </header>
 
   <main>
+
+
     <div class="container" style="margin-top: 15px">
         <form action="" method="post">
-            <input type="submit" name="submit" value="Odoslať" class="btn btn-success" style="margin-bottom: 15px">
+        <button type="button" class="btn btn-success" style="margin-bottom: 15px" data-toggle="modal" data-target="#exampleModal">
+            Odoslať
+        </button>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="submit" name="submit" value="Odoslať bez platobného príkazu" class="btn btn-success" style="margin-right: 15px">
+        <input type="submit" name="submitPM" value="Odoslať s pokynmi k platbe" class="btn btn-success" style="margin-right: 15px">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
             <?php
                 foreach($tariffs as $tariff){
                     
@@ -131,7 +166,7 @@
                             <div class='card-body'>
                                 <div class='form-group'>
                                     <label>Predchádzajúca hodnota</label>
-                                    <input placeholder='Predchádzajúca hodnota' value='".$localTarifData['value']."' class='form-control' type='number' step='any'>
+                                    <input placeholder='Predchádzajúca hodnota' value='".$localTarifData[0]['value']."' class='form-control' type='number' step='any'>
                                 </div>
                                 <div class='form-group'>
                                     <label>Aktuálna hodnota</label>
